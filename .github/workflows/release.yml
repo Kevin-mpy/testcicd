@@ -1,0 +1,40 @@
+name: 🚀 Create Release
+
+# 触发器：当一个 'v*' 格式的标签被推送时，或手动触发时运行
+on:
+  push:
+    tags:
+      - 'v*' # 匹配 v1.0, v2.3.4 等标签
+
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to create (e.g., v202509161845)'
+        required: true
+        default: 'v202509161845'
+      target_branch:
+        description: 'Target branch to base the tag on'
+        required: true
+        default: 'release'
+      prerelease:
+        description: 'Mark as pre-release version'
+        required: true
+        default: false
+        type: boolean
+
+jobs:
+  create-release:
+    name: 📦 Call Release Creator
+
+    # 将权限设置移到 Job 内部
+    permissions:
+      contents: write # 'contents: write' 权限是创建 Release 所必需的
+
+    # 调用 reusable-release.yml 工作流
+    uses: channelwill/cicd/.github/workflows/reusable-release.yml@main
+    with:
+      # 传参
+      tag: ${{ github.event.inputs.tag || github.ref_name }}
+      target_branch: ${{ github.event.inputs.target_branch }}
+      prerelease: ${{ github.event.inputs.prerelease }}
+    secrets: inherit
