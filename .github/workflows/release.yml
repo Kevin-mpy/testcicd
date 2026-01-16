@@ -31,7 +31,7 @@ jobs:
       contents: write # 'contents: write' 权限是创建 Release 所必需的
 
     # 调用 reusable-release.yml 工作流
-    uses: https://github.com/Kevin-mpy/cicd/.github/workflows/reusable-release.yml@main
+    uses: Kevin-mpy/cicd/.github/workflows/reusable-release.yml@main
     with:
       # 传参
       tag: ${{ github.event.inputs.tag || github.ref_name }}
