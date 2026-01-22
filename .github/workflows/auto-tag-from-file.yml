@@ -5,6 +5,11 @@ on:
     # 仅当VERSION文件修改时触发（可选，减少不必要的执行）
     paths: [ 'VERSION' ]
 
+# 关键：添加权限声明
+permissions:
+  contents: write  # 允许写入仓库内容（包括Tag、分支）
+  pull-requests: read  # 可选，仅读取PR信息
+
 jobs:
   tag:
     runs-on: ubuntu-latest
